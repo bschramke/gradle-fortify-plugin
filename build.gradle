@@ -8,10 +8,10 @@ repositories {
 }
 
 dependencies {
-    compile gradleApi()
-    compile localGroovy()
-    testCompile gradleTestKit()
-    testCompile 'junit:junit:4.12'
+    implementation gradleApi()
+    implementation localGroovy()
+    testImplementation gradleTestKit()
+    testImplementation 'junit:junit:4.12'
 }
 
 version = '0.3.0'

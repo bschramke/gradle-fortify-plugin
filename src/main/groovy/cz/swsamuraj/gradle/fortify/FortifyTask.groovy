@@ -31,16 +31,23 @@ package cz.swsamuraj.gradle.fortify
 
 import org.gradle.api.DefaultTask
 import org.gradle.api.logging.Logger
+import org.gradle.api.tasks.Input
+import org.gradle.api.tasks.Internal
 import org.gradle.api.tasks.StopExecutionException
 import org.gradle.api.tasks.TaskAction
 
 class FortifyTask extends DefaultTask {
 
+    @Internal
     String group = 'Fortify'
+
+    @Internal
     String description = 'Security analysis by HP Fortify'
 
+    @Input
     String fortifyBuildID
 
+    @Internal
     Logger logger = project.logger
 
     @TaskAction
