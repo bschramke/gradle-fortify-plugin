@@ -1,8 +1,7 @@
-# Gradle Fortify plugin #
+# gradle-fortify-plugin
+A Gradle plugin for building and publishing of Fortify artifacts for a static security analysis.
 
-[![Build Status](https://travis-ci.org/sw-samuraj/gradle-fortify-plugin.svg?branch=master)](https://travis-ci.org/sw-samuraj/gradle-fortify-plugin)
-
-A Gradle plugin for building of Fortify artifacts for static security analysis.
+This is a rewrite of https://github.com/sw-samuraj/gradle-fortify-plugin
 
 ## Applying the plugin ##
 
@@ -10,7 +9,7 @@ A Gradle plugin for building of Fortify artifacts for static security analysis.
 
 ```groovy
 plugins {
-    id "cz.swsamuraj.fortify" version "0.3.0"
+    id "com.github.fortify-gradle" version "0.1.0-SNAPSHOT"
 }
 ```
 ### All Gradle versions (or local repository) ##
@@ -23,11 +22,11 @@ buildscript {
         }
     }
     dependencies {
-        classpath "gradle.plugin.cz.swsamuraj:gradle-fortify-plugin:0.3.0"
+        classpath "com.github.bschramke:gradle-fortify-plugin:0.1.0-SNAPSHOT"
     }
 }
 
-apply plugin: "cz.swsamuraj.fortify"
+apply plugin: "com.github.fortify-gradle"
 ```
 
 ## Using the plugin ##
