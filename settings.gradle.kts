@@ -4,10 +4,13 @@
 rootProject.name = "gradle-fortify-plugin"
 
 pluginManagement {
+    plugins {
+        kotlin("jvm") version "1.7.22"
+    }
     repositories {
         gradlePluginPortal()
     }
 }
 
 includeBuild("plugin")
-include("example:hello-java")
+include("example:hello-java", "example:hello-kotlin")

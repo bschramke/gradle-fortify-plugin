@@ -71,6 +71,7 @@ abstract class FortifyTask : DefaultTask() {
         translateCommand = addClasspathParameter(translateCommand)
         translateCommand = translateCommand.toMutableList().apply {
             add("src/**/*.java")
+            add("src/**/*.kt")
         }
 
         translateCommand = addExcludeParameter(translateCommand)

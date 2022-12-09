@@ -3,7 +3,7 @@ plugins {
     id 'com.github.fortify-gradle' version '0.1.0-SNAPSHOT'
 }
 
-group = 'cz.swsamuraj.hello'
+group = 'com.github.bschramke.hello'
 version = '0.1.0-SNAPSHOT'
 
 sourceCompatibility = 1.8
