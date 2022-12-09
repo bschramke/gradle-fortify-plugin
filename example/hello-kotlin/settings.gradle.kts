@@ -1,7 +1,7 @@
 // always good to nail down the root project name, because
 // the root directory name may be different in some envs (e.g. CI)
 // hence the following even makes sense for single-project builds
-rootProject.name = "gradle-fortify-plugin"
+rootProject.name = "example-hello-kotlin"
 
 pluginManagement {
     plugins {
@@ -11,7 +11,3 @@ pluginManagement {
         gradlePluginPortal()
     }
 }
-
-includeBuild("plugin")
-includeBuild("example/hello-java")
-includeBuild("example/hello-kotlin")
