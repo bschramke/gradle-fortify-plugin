@@ -2,7 +2,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     kotlin("jvm")
-    id("com.github.fortify-gradle") version "0.1.0-SNAPSHOT"
+    id("io.github.fortify-gradle") version "0.1.0-SNAPSHOT"
 }
 
 group = "com.github.bschramke.hello"
