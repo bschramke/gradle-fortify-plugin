@@ -1,11 +1,11 @@
 package com.github.bschramke.gradle.plugin.fortify
 
+import com.github.bschramke.gradle.plugin.fortify.tasks.FortifyTask
 import com.github.bschramke.gradle.plugin.fortify.util.fail
 import org.gradle.api.DefaultTask
 import org.gradle.api.plugins.JavaPluginExtension
 import org.gradle.api.provider.Property
 import org.gradle.api.tasks.Input
-import org.gradle.api.tasks.Internal
 import org.gradle.api.tasks.StopExecutionException
 import org.gradle.api.tasks.TaskAction
 import org.gradle.kotlin.dsl.getByType
@@ -13,19 +13,10 @@ import java.io.ByteArrayOutputStream
 import java.io.File
 import kotlin.jvm.Throws
 
-abstract class FortifyTask : DefaultTask() {
-
-    init {
-        group = "Fortify"
-        description = "Security analysis by HP Fortify"
-    }
-
-    @get:Input
-    abstract val fortifyBuildId:Property<String>
+abstract class FortifyAnalysisTask : FortifyTask() {
 
     @TaskAction
     fun fortify() {
-        logger.lifecycle("Fortify BuildID => ${fortifyBuildId.get()}")
         doChecks()
 
         exec(listOf("sourceanalyzer","-b", fortifyBuildId.get(), "-clean"))
@@ -44,25 +35,6 @@ abstract class FortifyTask : DefaultTask() {
         val fortifyResult = File(fortifyBuildFolder, "${project.name}-${project.version}.fpr")
         fortifyResult.createNewFile()
         exec(listOf("sourceanalyzer","-b", fortifyBuildId.get(), "-scan", "-f", fortifyResult.absolutePath))
-    }
-
-    private fun exec(params:List<String>):String {
-        logger.info("[Fortify] ${params.joinToString(" ")}")
-
-        val stdOut = ByteArrayOutputStream()
-
-        project.exec {
-            commandLine(params)
-            standardOutput = stdOut
-        }
-
-        return stdOut.toString("UTF-8")
-    }
-    @Throws(StopExecutionException::class)
-    private fun doChecks() {
-        if(!fortifyBuildId.isPresent or fortifyBuildId.get().isBlank()) {
-            fail("[Fortify] Mandatory parameter fortifyBuildID has not been configured.")
-        }
     }
 
     private fun assembleTranslateCommand():List<String> {

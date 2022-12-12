@@ -9,5 +9,5 @@
 package com.github.bschramke.gradle.plugin.fortify
 
 interface FortifyExtension {
-    var fortifyBuildID:String
+    var fortifyBuildID:String?
 }

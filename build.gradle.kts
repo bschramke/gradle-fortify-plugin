@@ -22,10 +22,6 @@ fun registerExampleTasks(module: IncludedBuild) {
             group = "Fortify"
             dependsOn(gradle.includedBuild(module.name).task(":fortifyClean"))
         }
-        val fortifyTranslateTask = register("fortifyTranslateExample$name") {
-            group = "Fortify"
-            dependsOn(gradle.includedBuild(module.name).task(":fortifyTranslateRun"))
-        }
         val fortifyTask = register("fortifyExample$name") {
             group = "Fortify"
             dependsOn(gradle.includedBuild(module.name).task(":fortify"))
