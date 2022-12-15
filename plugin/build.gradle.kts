@@ -27,12 +27,16 @@ pluginBundle {
 }
 
 repositories {
+    google()
     mavenCentral()
 }
 
 dependencies {
+    compileOnly("com.android.tools.build:gradle-api:7.1.3")
+    compileOnly("com.android.tools.build:gradle:7.1.3")
+//    compileOnly("org.jetbrains.kotlin:kotlin-gradle-plugin")
     testImplementation(gradleTestKit())
-    testImplementation("junit:junit:4.12")
+    testImplementation("junit:junit:4.13.2")
 }
 
 tasks.withType<org.gradle.jvm.tasks.Jar>() {

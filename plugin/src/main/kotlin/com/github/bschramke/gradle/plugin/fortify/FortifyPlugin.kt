@@ -8,8 +8,13 @@
  */
 package com.github.bschramke.gradle.plugin.fortify
 
+import com.android.build.api.variant.AndroidComponentsExtension
+import com.android.build.api.variant.Variant
+import com.android.build.gradle.internal.tasks.factory.registerTask
 import com.github.bschramke.gradle.plugin.fortify.tasks.FortifyCleanTask
+import com.github.bschramke.gradle.plugin.fortify.tasks.FortifyTranslateAndroidVariantTask
 import com.github.bschramke.gradle.plugin.fortify.tasks.FortifyTranslateJavaTask
+import com.github.bschramke.gradle.plugin.fortify.util.isAndroidModule
 import com.github.bschramke.gradle.plugin.fortify.util.isJavaModule
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -26,8 +31,16 @@ class FortifyPlugin : Plugin<Project> {
 
         val fortifyExtension = project.extensions.create<FortifyExtension>("fortify")
 
-        registerTranslateTasks(project, fortifyExtension)
-        val translateTasks = project.tasks.withType<FortifyTranslateJavaTask>()
+        project.allprojects {
+            afterEvaluate {
+                logger.lifecycle("configure ${this.name}")
+                if(this.isJavaModule())
+                    configureJavaProject(this, fortifyExtension)
+                else if(this.isAndroidModule()) {
+                    configureAndroidProject(this, fortifyExtension)
+                }
+            }
+        }
 
         project.tasks.apply {
             register<FortifyAnalysisTask>("fortify") {
@@ -40,7 +53,19 @@ class FortifyPlugin : Plugin<Project> {
         }
 
     }
+    private fun configureJavaProject(target: Project, fortifyExtension: FortifyExtension) {
+        target.logger.lifecycle("Configure ${target.name} as Java Project")
+        registerTranslateTasks(target, fortifyExtension)
 
+    }
+
+    private fun configureAndroidProject(target: Project, fortifyExtension: FortifyExtension) {
+        target.logger.lifecycle("Configure ${target.name} as Android Project")
+        val androidComponents = target.extensions.getByType(AndroidComponentsExtension::class.java)
+        androidComponents.onVariants { variant:Variant ->
+            target.tasks.registerTask(FortifyTranslateAndroidVariantTask.CreateAction(variant))
+        }
+    }
     private fun ensureTargetIsRootProject(target:Project) {
         require(target.parent == null) { "Fortify plugin must applied to root-project only!" }
     }
